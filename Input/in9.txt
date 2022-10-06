@@ -1,0 +1,22 @@
+insert asa ata
+insert si asa.
+insert cal
+insert ata si ata
+insert car si cap
+insert cal cu potcoave noi
+insert car nou
+insert cap de om si cal
+insert cal cu cap
+insert camera
+print
+insert noi plecam
+insert noi ajungem la casa
+insert casa e noua
+insert casa are pereti albastri
+insert cana este pe masa
+insert cala avionului este plina
+insert cala este o floare albastra
+insert ei beau Cola zilnic
+print
+print a 8
+print 1

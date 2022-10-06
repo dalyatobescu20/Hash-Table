@@ -1,0 +1,11 @@
+insert Ana a ajuns acasa
+insert Anca are un balon albastru.
+insert E un balon albastru.
+insert acasa e bine
+insert Mergem impreuna la plimbare intr-un parc.
+print
+insert Ei merg acasa. 
+insert Am auzit un cantec. 
+insert am auzit o poveste.
+insert Parchez langa o masina albastra
+print

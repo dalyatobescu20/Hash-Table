@@ -1,0 +1,11 @@
+insert A asteptat sa iasa toti din vestiar,  pentru a nu fi vazut
+insert cand intra in sala de sport
+insert Cand iesi in oras, ai grija sa nu-ti pierzi telefonul.
+insert adu-ti aminte de sfaturile parintilor.
+insert Alexandru este un copil descurcaret
+insert El este talentat de cand era mic.
+insert a devenit ulterior un mare artist.
+insert El are 125 premii.
+insert Vlad este talentat 
+insert Ana ia aminte
+print

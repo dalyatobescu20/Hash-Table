@@ -1,0 +1,10 @@
+insert Si azi si maine mergem la scoala.
+insert Ea merge cat merge dar oboseste.
+insert Ziua de astazi este 
+insert asa 
+print
+insert si asa.
+insert dar din dar te face dac
+print
+print a 2
+print a 3

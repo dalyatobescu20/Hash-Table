@@ -1,0 +1,9 @@
+insert Ana a ajuns acasa
+insert Anca are un balon albastru.
+insert E un balon albastru.
+insert acasa e bine
+insert are
+print
+insert inc intr-un. Irina intr-un
+print a 5
+print 1

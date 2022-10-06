@@ -1,0 +1,5 @@
+insert Ana a ajuns acasa
+insert Anca are un balon albastru.
+insert E un balon albastru.
+insert acasa e bine
+print a 5
