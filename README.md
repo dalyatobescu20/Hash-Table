@@ -1,5 +1,6 @@
 # tema-1-SDA
-/*Tobescu Dalya Alexandra*/
+
+
 In ceea ce priveste structurile am folosit:
 -->structura pentru tabela hash
 -->structura pentru lista in care sunt pastrate nr de elemente pentru cuvinte
