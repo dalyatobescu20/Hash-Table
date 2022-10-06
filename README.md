@@ -1,4 +1,4 @@
-# tema-1-SDA
+HASH TABLE
 
 
 In ceea ce priveste structurile am folosit:
