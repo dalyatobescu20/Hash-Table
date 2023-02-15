@@ -1,4 +1,4 @@
-HASH TABLE
+Partea de hash-table:
 	
 	In ceea ce priveste structurile am folosit:
 	-->structura pentru tabela hash
