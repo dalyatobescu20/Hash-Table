@@ -9,14 +9,14 @@ HASH TABLE
 
 Partea de linked list:
 
-  PS: nu prea am ce explica, le avem si in laburi, am lasat comm-uri in cod
-  Functii elementare :
-  -->creare de lista
-  -->adaugare nod in lista
-  -->stergere nod
-		-->eliberare memorie lista
-		-->functie care interschimba nodurile
-		-->functie de sort in functie de criteriul de comparatie
+       PS: nu prea am ce explica, le avem si in laburi, am lasat comm-uri in cod
+       Functii elementare :
+        -->creare de lista
+        -->adaugare nod in lista
+        -->stergere nod
+	-->eliberare memorie lista
+	-->functie care interschimba nodurile
+	-->functie de sort in functie de criteriul de comparatie
 
 Partea de hash-list:
 
