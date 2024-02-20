@@ -1,16 +1,16 @@
-/*Tobescu Dalya-Alexandra-Grupa 311CB*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <sys/types.h>
 #include "linked_list.h"
 
+// Function to create a new linked list
 List* CreateList(ssize_t data_size)
 {
     List* ll;
     ll = malloc(sizeof(*ll));
     if(ll == NULL) {
-        printf("ALocarea nu a reusit");
+        printf("Allocation failed");
         return NULL;
     }
     ll->head = NULL;
@@ -19,6 +19,7 @@ List* CreateList(ssize_t data_size)
     return ll;
 }
 
+// Function to add a new node to the linked list
 void AddNode(List* list, ssize_t n, const void* new_data)
 {
     Node *prev = NULL, *curr = NULL;
@@ -36,45 +37,51 @@ void AddNode(List* list, ssize_t n, const void* new_data)
         curr = curr->next;
         --n;
     }
-    new_node = malloc(sizeof(*new_node));//aloc memorie pentru nodul pe care il introduc
-    if(new_node == NULL) 
-        printf("Alocarea nu a reusit");
-        new_node->data = malloc(list->data_size);
-    if(new_node->data == NULL) 
-        printf("Alocarea nu a reusit");
-        memcpy(new_node->data, new_data, list->data_size); //copiem datele primite ca parametru in nodul nostru
-        new_node->next = curr;
+    new_node = malloc(sizeof(*new_node)); // Allocate memory for the new node
+    if(new_node == NULL) {
+        printf("Allocation failed");
+        return;
+    }
+    new_node->data = malloc(list->data_size); // Allocate memory for the data in the new node
+    if(new_node->data == NULL) {
+        printf("Allocation failed");
+        free(new_node);
+        return;
+    }
+    memcpy(new_node->data, new_data, list->data_size); // Copy the data to the new node
+    new_node->next = curr;
     if (prev == NULL) {
         list->head = new_node;  
     } else {
         prev->next = new_node;
     }
-    list->size++; //crestem marimea listei deoarece am mai adaugat un nod
+    list->size++; // Increment the size of the list
 }
 
+// Function to remove a node from the linked list
 Node* RemoveNode(List* list, ssize_t n)
 {
     Node *prev, *curr;
     if (!list || !list->head) {
         return NULL;
     }
-    curr = list->head; //pointam catre primul element din lista
+    curr = list->head; // Point to the first node
     prev = NULL;
-    while (n > 0) {//parcurgem toata lista si eliminam fiecare element
+    while (n > 0) {
         prev = curr;
         curr = curr->next; 
         --n;
     }
     if (prev == NULL) {
-        /* Adica n == 0. */
         list->head = curr->next;  
     } else {
         prev->next = curr->next;
     }
-    list->size--; 
+    list->size--; // Decrement the size of the list
     return curr;
 }
 
+// Function to free the memory allocated for the linked list
 void FreeList(List** list)
 {
     Node* currNode;
@@ -82,8 +89,8 @@ void FreeList(List** list)
         return;
     }
     while ((*list)->size > 0) {
-        currNode = RemoveNode(*list, 0); //eliminam fiecare nod din lista pana cand se termina lista
-        free(currNode->data);
+        currNode = RemoveNode(*list, 0); // Remove each node from the list
+        free(currNode->data); // Free the memory allocated for the data
         currNode->data = NULL;
         free(currNode);
         currNode = NULL;
@@ -92,17 +99,19 @@ void FreeList(List** list)
     *list = NULL;
 }
 
+// Function to get a node at a specific index in the linked list
 Node* GetNode(List* list, ssize_t n)
 {
-    if (!list || n >= list->size) //daca lista este nula
+    if (!list || n >= list->size)
         return NULL;
     Node* curr = list->head;
-    while (n--) {//cautam nodul
-        curr = curr->next; 
+    while (n--) {
+        curr = curr->next; // Traverse the list to find the node
     }
     return curr;
 }
-//functii pentru sortarea sublistelor 
+
+// Function to swap two nodes in the linked list
 void SwapNodes(List* list, ssize_t n1, ssize_t n2)
 {
     Node* node1 = GetNode(list, n1);
@@ -112,12 +121,12 @@ void SwapNodes(List* list, ssize_t n1, ssize_t n2)
     node2->data = aux;
 }
 
+// Function to sort the linked list
 void SortList(List* list, int (*compare_func)(void*, void*))
 {
     for (ssize_t i = 0; i < list->size - 1; i++) {
         for (ssize_t j = i + 1; j < list->size; j++) {
-            if (compare_func(GetNode(list, i)->data, 
-                             GetNode(list, j)->data) > 0) {
+            if (compare_func(GetNode(list, i)->data, GetNode(list, j)->data) > 0) {
                 SwapNodes(list, i, j);
             }
         }
