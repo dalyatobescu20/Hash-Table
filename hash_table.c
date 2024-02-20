@@ -1,4 +1,3 @@
-/*Tobescu Dalya-Alexandra*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -9,6 +8,7 @@
 #define MAX_STRING_SIZE	256
 #define MIN_STRING_SIZE 3
 
+// Function to compare strings
 int compare_function_strings(void *a, void *b) 
 {
 	char *str1 = (char *)a;
@@ -16,30 +16,31 @@ int compare_function_strings(void *a, void *b)
 	return strcmp(str1, str2);
 }
 
+// Hash function for strings
 ssize_t hash_function_string(void *string)
 {
-	if(((char*)string)[0] >= 'A' && ((char*)string)[0] <= 'Z')  //in cazul in care cuvantul incepe cu litera mare
+	if(((char*)string)[0] >= 'A' && ((char*)string)[0] <= 'Z')  
 		return ((char*)string)[0] + 32 - 'a';
 	return ((char*)string)[0] - 'a';
 }
 
-HashTable* ht_create(ssize_t size, ssize_t (*hash_function)(void*),
-						ssize_t data_size)
+// Function to create a hash table
+HashTable* ht_create(ssize_t size, ssize_t (*hash_function)(void*), ssize_t data_size)
 {
-	HashTable* new = calloc(1, sizeof(HashTable)); //alocam memorie pentru tabela hash
+	HashTable* new = calloc(1, sizeof(HashTable));
 	if(!new) {
-	     printf("Alocarea nu a reusit");
+	     printf("Allocation failed");
 		 return NULL;
 	}
-    new->v = calloc(1, size * sizeof(List*));//alocam memorie pentru vectorul de tip lista
+    new->v = calloc(1, size * sizeof(List*));
 	if(!new->v) {
-	    printf("Alocarea nu a reusit");
+	    printf("Allocation failed");
 		return NULL;
 	}
 	for (ssize_t i = 0; i < size; i++) {
-		new->v[i] = CreateList(sizeof(data_size)); //punem listele in tabela
+		new->v[i] = CreateList(sizeof(data_size));
 		if(!new->v[i]) {
-		printf("Alocarea nu a reusit");
+		printf("Allocation failed");
 		return NULL;
 		}
 	}
@@ -48,18 +49,20 @@ HashTable* ht_create(ssize_t size, ssize_t (*hash_function)(void*),
 	return new;
 }
 
-int compare_words(void* w1, void* w2)  //functie de comparare cuvinte din subliste 
+// Function to compare words within sublist
+int compare_words(void* w1, void* w2)
 {
-	if (((Word*)w1)->count > ((Word*)w2)->count) //descrescator
+	if (((Word*)w1)->count > ((Word*)w2)->count)
 		return -1;
-	if (((Word*)w1)->count < ((Word*)w2)->count) //crescator
+	if (((Word*)w1)->count < ((Word*)w2)->count)
 		return 1;
-	return strcmp(((Word*)w1)->string, ((Word*)w2)->string); //daca sunt egale , lexicografic
+	return strcmp(((Word*)w1)->string, ((Word*)w2)->string);
 }
 
+// Function to insert a word into the hash table
 void insert_word(HashTable* ht, Word* w)
 {
-	if (!ht || !w)  //in cazul in care tabela hash sau cuvantul din sublista nu exista
+	if (!ht || !w)
 		return;
 	if (strlen(w->string) < MIN_STRING_SIZE) {
         free(w->string);
@@ -69,7 +72,7 @@ void insert_word(HashTable* ht, Word* w)
 		free(w->string);
 		return;
 	}	
-	List* tmp = ht->v[ht->hash_function(w->string)]; //aplicam functia de hash
+	List* tmp = ht->v[ht->hash_function(w->string)];
 	Node* curr = tmp->head;   
 	ssize_t pos = 0;
 	while (curr) {
@@ -79,16 +82,14 @@ void insert_word(HashTable* ht, Word* w)
 			pos++;
 		curr = curr->next;
 	}
-	// daca nu exista cuvinte de aceeasi lungime
 	if (!curr) {
-		// adauga pe pozitia pos
 		word_list *new_word_list;
 		new_word_list = calloc(1, sizeof(word_list));
 		new_word_list->list = CreateList(sizeof(Word));
 		new_word_list->w_len = strlen(w->string);
 		AddNode(new_word_list->list, 0, w);
 		AddNode(tmp, pos, &new_word_list);
-	} else {  // daca exista cuvinte de aceeasi lungime
+	} else {
 		List* curr_word_list = (*(word_list**)curr->data)->list;
 		Node* curr_word = curr_word_list->head;
 		while (curr_word) {
@@ -106,48 +107,48 @@ void insert_word(HashTable* ht, Word* w)
 	}
 }
 
-
+// Function to destroy the hash table
 int Distrugere(HashTable *ht)
 {
     List** bucket;
     if(!ht)
 		return -1; 
-	for(ssize_t i = 0; i < ht->size; i++) { //parcugem fiecare element din tabela
-		List* curr_list = ht->v[i];//luam fiecare lista in parte
-		for (ssize_t j = 0; j < curr_list->size; j++) {//luam ficare nod din fiecare lisrta
+	for(ssize_t i = 0; i < ht->size; i++) {
+		List* curr_list = ht->v[i];
+		for (ssize_t j = 0; j < curr_list->size; j++) {
 			Node* curr_node = GetNode(curr_list, j);
 			word_list* curr_word_list =*(word_list**)curr_node->data; 
 			List* curr_sublist = curr_word_list->list;
-			for(ssize_t k = 0; k < curr_sublist->size; k++) {//luam fiecare sublisra
+			for(ssize_t k = 0; k < curr_sublist->size; k++) {
 				Node* tmp = GetNode(curr_sublist, k);
-				free(((Word*)tmp->data)->string);//eliberam fiecare cuvant din sublisra
+				free(((Word*)tmp->data)->string);
 			}
-			FreeList(&curr_sublist);//eliberam sublista
-			free(curr_word_list);//eliberam intreaga lista de cuvinte
+			FreeList(&curr_sublist);
+			free(curr_word_list);
 		}
-        FreeList(&curr_list);    //eliberam lista generica
+        FreeList(&curr_list);
 	}
-	free(ht->v);		//eliberam vectorul din tabela
-	free(ht);   //eliberam tabela in sfarsit
+	free(ht->v);
+	free(ht);
     return 0;
 }
 
+// Function to print the hash table
 void print_ht(HashTable* ht)
 {
-	for(ssize_t i = 0; i < ht->size; i++) { //fiecare elem pe rand din tabela
-		List* tmp = ht->v[i];  //lista corespunzatoare elementului din tabela
+	for(ssize_t i = 0; i < ht->size; i++) {
+		List* tmp = ht->v[i];
 		if (tmp->size) {  
-		   printf("pos %zu: ", i); //pozitia din tabela
-		for(ssize_t j = 0; j < tmp->size; j++) { //parcurgem lista cu dimensiunile cuvintelor
+		   printf("pos %zu: ", i);
+		for(ssize_t j = 0; j < tmp->size; j++) {
 			word_list* curr_word_list = *(word_list**)GetNode(tmp, j)->data; 
-			printf("(%zu:", curr_word_list->w_len); //dim cuvantului 
-            for (ssize_t k = 0; k < curr_word_list->list->size; k++) {//parcurgem cuvintele care au dim anterioara
+			printf("(%zu:", curr_word_list->w_len);
+            for (ssize_t k = 0; k < curr_word_list->list->size; k++) {
 				if (k)
 				printf(", ");
                 Node* curr_word = GetNode(curr_word_list->list, k);
 				printf("%s/%zu", ((Word*)curr_word->data)->string,
-									 ((Word*)curr_word->data)->count);//cuvantul si nr de aparitii
-
+									 ((Word*)curr_word->data)->count);
 			}
 			printf(")");
 		}
@@ -156,16 +157,17 @@ void print_ht(HashTable* ht)
 	}
 }
 
+// Function to print specific elements of the hash table
 void print2_ht(HashTable* ht, char* c, ssize_t n)
 {   
     bool print_newline = 0;
-	List* list = ht->v[ht->hash_function(c)]; //cautam caracterul in tabela si aplicam functia hash
-	for(ssize_t i = 0; i < list->size; i++) { //parcurgem lista
+	List* list = ht->v[ht->hash_function(c)];
+	for(ssize_t i = 0; i < list->size; i++) {
 		word_list* curr_word_list = *(word_list**)GetNode(list, i)->data; 
-		if(curr_word_list->w_len == n) { //daca dimensiunea cuvintelor este egala cu n
+		if(curr_word_list->w_len == n) {
 			printf("(%zu:", n); 
 			List* tmp = curr_word_list->list;
-			for (ssize_t j = 0; j < tmp->size; j++) { //acum parcurgem intreaga lista de cuvinte de lungime n
+			for (ssize_t j = 0; j < tmp->size; j++) {
 				if (j)
 					printf(", ");
 	     Word* curr_word = GetNode(tmp, j)->data;
@@ -180,6 +182,7 @@ void print2_ht(HashTable* ht, char* c, ssize_t n)
 	printf("\n");
 }
 
+// Function to print specific elements of the hash table based on maximum count
 void print3_ht(HashTable* ht, ssize_t max_count)
 {
 	for(ssize_t i = 0; i < ht->size; i++) {
