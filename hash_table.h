@@ -1,4 +1,3 @@
-/*Tobescu Dalya-Alexandra -grupa 311CB*/
 #pragma once
 
 #include "linked_list.h"
