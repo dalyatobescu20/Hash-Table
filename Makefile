@@ -1,8 +1,8 @@
 build: 
-	gcc -o tema1 hash_table.c linked_list.c main.c -std=gnu11
+	gcc -o hash hash_table.c linked_list.c main.c -std=gnu11
 run:
-	./tema1
+	./hash
 
 clean:
-	rm -rf tema1
+	rm -rf hash
 
